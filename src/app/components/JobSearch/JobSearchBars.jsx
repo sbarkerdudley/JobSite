@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext, useState } from 'react';
 import {
   Box, Stack, FormControl, InputLabel, Input, InputAdornment,
@@ -6,12 +7,12 @@ import { LocationOn, LocationOff, Tune } from '@mui/icons-material';
 import { parseSearchInput } from '../../utils/searchUtils';
 import { JobSearchContext } from './JobSearchContext';
 
-export function LocationSearch({ sx }) {
+export const LocationSearch = ({ sx }) => {
   const [anywhere, setAnywhere] = useState(false);
-  const { location, setLocation } = useContext(JobSearchContext);
+  const { setLocation } = useContext(JobSearchContext);
   const label = anywhere ? 'Anywhere' : 'Search Location';
 
-  function LocationSearchIcon() {
+  const LocationSearchIcon = () => {
     const icon = anywhere ? <LocationOff /> : <LocationOn sx={{ color: '#85CDD2' }} />;
 
     return (
@@ -23,12 +24,11 @@ export function LocationSearch({ sx }) {
         {icon}
       </InputAdornment>
     );
-  }
+  };
 
   const handleLocationInput = (e) => setLocation(parseSearchInput(e, 'location'));
 
   return (
-
     <FormControl variant="outlined" disabled={!!anywhere} sx={sx}>
       <InputLabel color="secondary" htmlFor="location">{label}</InputLabel>
       <Input
@@ -40,28 +40,26 @@ export function LocationSearch({ sx }) {
       />
     </FormControl>
   );
-}
+};
 
-export function KeywordSearch({ sx }) {
+export const KeywordSearch = ({ sx }) => {
   const { keywords, setKeywords } = useContext(JobSearchContext);
   const { drawer, setDrawer } = useContext(JobSearchContext);
 
-  function FiltersIcon() {
-    return (
-      <InputAdornment
-        sx={{ cursor: 'pointer' }}
-        position="end"
-        onClick={() => setDrawer(!drawer)}
-      >
-        <Tune />
-      </InputAdornment>
-    );
-  }
+  const FiltersIcon = () => (
+    <InputAdornment
+      sx={{ cursor: 'pointer' }}
+      position="end"
+      onClick={() => setDrawer(!drawer)}
+    >
+      <Tune />
+    </InputAdornment>
+  );
 
   const handleKeywordsInput = (e) => setKeywords(parseSearchInput(e, 'keywords'));
 
   return (
-    <FormControl sx={sx}>
+    <FormControl {...{ sx }}>
       <InputLabel color="secondary" htmlFor="keywords">
         Search Jobs
       </InputLabel>
@@ -73,9 +71,9 @@ export function KeywordSearch({ sx }) {
       />
     </FormControl>
   );
-}
+};
 
-function JobSearchBars({ children }) {
+const JobSearchBars = ({ children }) => {
   const styles = {
     display: 'flex',
     flexDirection: 'row',
@@ -90,6 +88,6 @@ function JobSearchBars({ children }) {
       {children}
     </Stack>
   );
-}
+};
 
 export default JobSearchBars;

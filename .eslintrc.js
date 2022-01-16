@@ -17,14 +17,14 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-    'prettier',
-  ],
+  plugins: ['react', 'prettier'],
   rules: {
     'linebreak-style': 0,
     'react/prop-types': 0,
     'func-names': 0,
-    'react/function-component-definition': [2, { namedComponents: 'function-declaration' }],
+    'react/function-component-definition': [
+      2,
+      { namedComponents: 'arrow-function' },
+    ],
   },
 };

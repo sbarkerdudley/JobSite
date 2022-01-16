@@ -99,7 +99,7 @@ module.exports = function () {
     return this;
   };
 
-  this.pagesize = function (pagesize) {
+  this.pagesize = function (pagesize = 40) {
     if (isNumeric(pagesize)) query.pagesize = pagesize;
     else throw "Pagesize must be a numeric value!";
     return this;
@@ -130,12 +130,7 @@ module.exports = function () {
   };
 
   this.query = function (resolved, rejected) {
-    // console.log('query', query);
     if (validateRequiredFields()) {
-      // request.get(url, { qs: query }, (err, response, body) => {
-      //   if (err) { return rejected(err); }
-      //   return resolved(JSON.parse(body));
-      // });
       return axios.get(url, {params: query});
     }
   };

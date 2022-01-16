@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect, useContext } from 'react';
 import { Stack, Divider, Typography, Input, Box, Button } from '@mui/material';
 import { FileButton } from './FileButton';
@@ -108,7 +107,7 @@ const ResumeAndCoverLetter = (props) => {
       justifyContent="space-evenly"
     >
       <FileViewAndUpload fileUse='resume_pdf' />
-      <Divider {...orientation} />
+      <Divider {...{orientation}} />
       <FileViewAndUpload fileUse='cover_letter_pdf' />
     </Stack>
   )

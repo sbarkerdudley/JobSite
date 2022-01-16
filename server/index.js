@@ -7,17 +7,16 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-
-// ----------------------------------------- END OF IMPORTS-----------------------------------------
+require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: 'http://localhost:3000', // <-- location of the react app were connecting to
+    origin: `http://localhost:${PORT}`, // <-- location of the react app we're connecting to
     credentials: true,
   }),
 );
@@ -86,6 +85,6 @@ app.get('*', (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Jobsite app listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Jobsite app listening at http://localhost:${PORT}`);
 });
