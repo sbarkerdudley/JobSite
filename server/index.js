@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
@@ -6,14 +7,10 @@ const passportLocal = require('passport-local').Strategy;
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const bodyParser = require('body-parser');
-require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: `http://localhost:${PORT}`, // <-- location of the react app we're connecting to
@@ -32,7 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('dist'));
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 require('./passportConfig')(passport);
 
 const employers = require('./controllers/employersController');
@@ -58,6 +55,8 @@ app.get('/user', (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside it.
 });
 
+app.get('/job/:id', jobSearch.forward);
+
 app.post('/data/upload', user.insertPDF);
 
 app.get('/data/getPDF/:fileUse', user.getPDF);
@@ -75,6 +74,7 @@ app.get('/appliedJobs', applications.getAppliedJobs);
 app.post('/saveJob', savedJobs.saveJob);
 
 app.get('/savedJobs', savedJobs.getSavedJobs);
+
 
 // Should always be last route
 app.get('*', (req, res) => {

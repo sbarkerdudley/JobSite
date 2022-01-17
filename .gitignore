@@ -111,3 +111,5 @@ firebaseConfig.js
 
 #Deployment cert
 JobSite.cer
+
+*.txt

@@ -1,6 +1,7 @@
+/* eslint-disable no-throw-literal */
 /* eslint-disable default-case */
 const request = require('request');
-let axios = require('axios');
+const axios = require('axios');
 
 const missingLocale = 'locale is mandatory';
 const missingAffid = 'Affiliate ID (affid) is mandatory';
@@ -9,19 +10,20 @@ const missingUserID = 'User IP and User Agent are mandatory';
 const careerjetUrl = 'http://public.api.careerjet.net/search?locale_code=';
 
 module.exports = function () {
+  let params = {};
 
-  var params = {}
-
-  if (arguments.length == 2) {
-    params = { locale: arguments[0], affid: arguments[1]}
-  } else if (arguments.length == 1 && typeof arguments[0] === "object" ) {
-    params = arguments[0]
+  if (arguments.length === 2) {
+    params = { locale: arguments[0], affid: arguments[1] };
+  } else if (arguments.length == 1 && typeof arguments[0] === 'object') {
+    params = arguments[0];
   }
-  const { locale, affid, user_ip, user_agent } = params
+  const {
+    locale, affid, user_ip, user_agent,
+  } = params;
 
   if (typeof locale !== 'string') throw missingLocale;
   if (typeof affid !== 'string') throw missingAffid;
-  if (typeof user_ip !== 'string' || typeof user_agent !== 'string') throw missingUserID;
+  if (typeof user_ip !== 'string' || typeof user_agent !== 'string') { throw missingUserID; }
 
   const url = careerjetUrl + locale;
 
@@ -32,9 +34,9 @@ module.exports = function () {
     user_agent,
     // keywords : '', //  Keywords to search in job offers. Example: 'java manager'. Default: none (Returns all offers from default country)
     // location : '', //  Location to search job offers in. Examples: 'London', 'Paris'. Default: none (Returns all offers from default country)
-    sort: 'relevance', // Type of sort. Available values are 'relevance' (default), 'date', and 'salary'.
+    sort: 'date', // Type of sort. Available values are 'relevance' (default), 'date', and 'salary'.
     // start_num : 1, //  Num of first offer returned in entire result space should be >= 1 and <= Number of hits. Default: 1
-    pagesize: 10, // Number of offers returned in one call. Default: 10. Max: 99.
+    pagesize: 40, // Number of offers returned in one call. Default: 10. Max: 99.
     page: 1, // Current page number (should be >=1). If set, will override start_num. The maxumum number of page is given by $result->pages
     contracttype: 'Default', // Character code for contract types:<br>
     // *    'p'    - permanent job<br>
@@ -68,32 +70,33 @@ module.exports = function () {
   };
 
   this.keywords = function (keywords) {
-    if (typeof keywords === 'string') {
+    if (typeof keywords === 'string' && keywords.length) {
       query.keywords = keywords;
     } else {
-      throw 'keywords must be a string!';
+      // throw 'keywords must be a string!';
     }
 
     return this;
   };
 
-  this.location = function (location) {
-    console.log('location', location);
-    if (typeof location === 'string') {
+  this.location = function (location = '94111') {
+    if (typeof location === 'string' && location.length) {
       query.location = location;
     } else {
-      throw 'location must be a string!';
+      // throw 'location must be a string!';
     }
     return this;
   };
 
-  this.sortBy = function (value) {
-    const allowedValues = ['date', 'relevance', 'salary'];
+  this.sortBy = function (value = 'date') {
+    const allowedValues = {
+      date: true,
+      relevance: true,
+      salary: true,
+    };
 
-    if (allowedValues.indexOf(value) > -1) {
+    if (allowedValues[value]) {
       query.sort = value;
-    } else {
-      throw (value + ' is not a valid value. Allowed values are [' + allowedValues.toString() + ']');
     }
 
     return this;
@@ -101,37 +104,37 @@ module.exports = function () {
 
   this.pagesize = function (pagesize = 40) {
     if (isNumeric(pagesize)) query.pagesize = pagesize;
-    else throw "Pagesize must be a numeric value!";
+    // else throw 'Pagesize must be a numeric value!';
     return this;
   };
 
-  this.radius = function (radius) {
+  this.radius = function (radius = 100) {
     if (isNumeric(radius)) query.radius = radius;
-    else throw "Radius must be a numeric value!";
+    // else throw 'Radius must be a numeric value!';
     return this;
   };
 
   this.start = function (index) {
     if (isNumeric(index)) query.start_num = index;
-    else throw "start index must be a numeric value!";
+    // else throw 'start index must be a numeric value!';
 
-  	return this;
+    return this;
   };
 
   this.page = function (index) {
     if (isNumeric(index)) query.page = index;
-    else throw "page index must be a numeric value!";
+    // else throw 'page index must be a numeric value!';
     return this;
   };
 
   const validateRequiredFields = function () {
-    if (!query.affid) throw "affid is mandatory.";
+    // if (!query.affid) throw 'affid is mandatory.';
     return true;
   };
 
   this.query = function (resolved, rejected) {
     if (validateRequiredFields()) {
-      return axios.get(url, {params: query});
+      return axios.get(url, { params: query });
     }
   };
 
