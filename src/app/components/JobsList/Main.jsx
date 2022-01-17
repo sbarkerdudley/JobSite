@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import JobItem from './JobItem';
 import JobFocusItem from './JobFocusItem';
 
-function Main({ jobsData }) {
+const Main = ({ jobsData }) => {
   // const [jobsState, setJobs] = useState(jobsData.jobs);
   const [jobFocusState, setItem] = useState(jobsData?.[0]);
 
@@ -43,17 +43,3 @@ function Main({ jobsData }) {
 }
 
 export default Main;
-
-// box tasks for focus item:
-// make border radius curvey
-// fill right 5/7ths of screen
-// scroll bar (something something overflow)
-// horizontal divider between properties
-// oneClickApply/detailedApply button
-// save job button
-
-// box tasks for list:
-// add buttons
-// save job
-// oneClickApply
-// scroll barrrr

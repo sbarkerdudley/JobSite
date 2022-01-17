@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import {
-  Grid, Paper, Typography, Box,
+  Grid, Paper, Typography, Box, Stack,
 } from '@mui/material';
 import AccountSelection from '../components/home/AccountSelection';
 import { useWindowSize } from '../utils/customHooks';
@@ -20,13 +20,13 @@ const centerStyle = {
   justifyContent: 'center',
 };
 
-function Home({ createAccount, newLogIn, nav }) {
+const Home = ({ createAccount, newLogIn, nav }) => {
   const { width } = useWindowSize();
 
   const paperStyles = {
     maxWidth: 250,
     backgroundColor: '#EDFEFF',
-    p: 3,
+    p: 1,
     m: 2,
   };
 
@@ -46,29 +46,14 @@ function Home({ createAccount, newLogIn, nav }) {
           elevation={5}
           square
           sx={{
-            width: '100%', backgroundColor: '#EDFEFF', p: 3,
+            width: '100%', p: 2,
           }}
         >
-          <Box sx={{
-            display: 'flex', flexDirection: 'column', textAlign: 'center', maxWidth: 250, mr: 'auto', ml: 'auto',
-          }}
-          >
+          <Stack direction="column" sx={{ m: 2 }}>
             <JobSearch />
-            <Typography sx={{
-              fontWeight: 700, mt: 3, pl: 2, pr: 2,
-            }}
-            >
-              Connecting people with jobs and jobs with people.
-            </Typography>
-            <PrimaryButton
-              sx={{
-                mt: 5, mb: 5, pl: 2, pr: 2, mr: 2, ml: 2,
-              }}
-              text="Get Started"
-            />
-            <Typography variant="subtitle2" sx={{ mb: 5, pl: 2, pr: 2 }}>Looking for work? Find jobs in your area and apply in one click! Spend more time interviewing, less time searching.</Typography>
-            <Typography sx={{ pl: 2, pr: 2 }} variant="subtitle2">Organize your search, filter starred jobs, keep track of upcoming interviews, and much more. Let’s get to work.</Typography>
-          </Box>
+            <PrimaryButton text="Get Started" />
+            <div style={{ height: '200px' }} />
+          </Stack>
         </Paper>
 
         <Typography variant="h5" sx={{ fontWeight: 700, m: 3, mt: 5 }}>How It Works</Typography>
@@ -80,7 +65,7 @@ function Home({ createAccount, newLogIn, nav }) {
           </Paper>
         ))}
 
-        <PrimaryButton sx={{ mt: 3, mb: 3 }} text="Get Started" />
+        <PrimaryButton text="Get Started" />
       </Box>
 
     );
@@ -118,6 +103,6 @@ function Home({ createAccount, newLogIn, nav }) {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default Home;

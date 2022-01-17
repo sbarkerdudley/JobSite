@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  AppBar, Button, Toolbar, Grid, Popper, Box, Divider, Typography,
+  AppBar, Button, Toolbar, Grid, Popper, Box, Divider,
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TextLogo from '../assets/TextLogo.png';
@@ -9,21 +9,18 @@ import { useWindowSize } from '../utils/customHooks';
 import MobilePopout from './home/MobilePopout';
 import Theme from '../Theme';
 import SecondaryButton from './SecondaryButton';
-import PrimaryButton from './PrimaryButton';
 import ResumeIcon from '../assets/cv.svg';
 import Profile from '../assets/profile.svg';
 
-function NavBar({ loggedIn }) {
+const NavBar = ({ loggedIn }) => {
   const { width } = useWindowSize();
   const location = useLocation();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
+  const handleClick = (e) => {
+    setAnchorEl(anchorEl ? null : e.currentTarget);
   };
-
-  const AUTHCHECK = false;
 
   const open = Boolean(anchorEl);
   const id = open ? 'profile-popper' : undefined;
@@ -104,7 +101,6 @@ function NavBar({ loggedIn }) {
         >
           <SecondaryButton text="Find Jobs" selected={location.pathname === '/dashboard'} onClick={() => navigate('/dashboard')} />
           <SecondaryButton text="View Saved Jobs" selected={location.pathname === '/jobs'} onClick={() => navigate('/jobs')} />
-          <SecondaryButton text="Calendar" />
         </Box>
       );
     }
@@ -150,14 +146,11 @@ function NavBar({ loggedIn }) {
             <Button onClick={() => navigate('/profile')}>
               <img src={ResumeIcon} alt="Resume" width="50" />
             </Button>
-
-            <PrimaryButton text="Employers / Post a Job" sx={{ pl: 2, pr: 2, ml: 2 }} />
-
           </Box>
         </Toolbar>
       </AppBar>
     </Grid>
   );
-}
+};
 
 export default NavBar;

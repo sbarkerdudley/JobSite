@@ -25,9 +25,9 @@ export const Sort = () => {
         name="sort"
         onChange={(e) => { setSort(e.target.value); }}
       >
-        <FormControlLabel value="sort=relevance" label="Relevance" control={R} />
-        <FormControlLabel value="sort=date" label="Date" control={R} />
-        <FormControlLabel value="sort=salary" label="Salary" control={R} />
+        <FormControlLabel key={1} value="sort=relevance" label="Relevance" control={R} />
+        <FormControlLabel key={2} value="sort=date" label="Date" control={R} />
+        <FormControlLabel key={3} value="sort=salary" label="Salary" control={R} />
       </RadioGroup>
     </FormControl>
   );
@@ -47,11 +47,11 @@ export const Range = () => {
         name="range"
         onChange={(e) => { setRange(e.target.value); }}
       >
-        <FormControlLabel value="radius=5" label="5 miles" control={R} />
-        <FormControlLabel value="radius=20" label="20 miles" control={R} />
-        <FormControlLabel value="radius=50" label="50 miles" control={R} />
-        <FormControlLabel value="radius=100" label="100 miles" control={R} />
-        <FormControlLabel value="" label="Anywhere" control={R} />
+        <FormControlLabel key={'5'  } value="radius=5" label="5 miles" control={R} />
+        <FormControlLabel key={'20' } value="radius=20" label="20 miles" control={R} />
+        <FormControlLabel key={'50' } value="radius=50" label="50 miles" control={R} />
+        <FormControlLabel key={'100'} value="radius=100" label="100 miles" control={R} />
+        <FormControlLabel key={'_'  } value="" label="Anywhere" control={R} />
       </RadioGroup>
     </FormControl>
   );

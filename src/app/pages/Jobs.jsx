@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box, Paper, Typography,
 } from '@mui/material';
 import axios from 'axios';
-import Theme from '../Theme';
 import JobSearch from '../components/JobSearch/JobSearch';
 import Main from '../components/UsersJobList/Main';
 import SecondaryButton from '../components/SecondaryButton';
 
-function Jobs() {
+const Jobs = () => {
   const [savedJobsList, setJobs] = useState([]);
   const [interestLevel, setInterest] = useState('');
   const sections = ['Applied', 'Extremely Interested', 'Very Interested', 'Interested'];
@@ -19,14 +18,8 @@ function Jobs() {
         setJobs(results.data);
         setInterest(interestParam);
       })
-      .catch((err) => {
-        console.log('get request to /savedJobs failed');
-      });
+      .catch(console.error);
   };
-
-  // useEffect(() => {
-  //   getSavedJobs();
-  // }, []);
 
   // this is breaking
   const getAppliedJobs = (interestParam) => {
@@ -35,8 +28,7 @@ function Jobs() {
         setJobs(results.data);
         setInterest(interestParam);
       })
-      .catch((err) => {
-        console.log('get request to /appliedJobs failed with interest level of', interestParam, err);
+      .catch(() => {
         setJobs([{}]);
         setInterest(interestParam);
       });
@@ -89,9 +81,13 @@ function Jobs() {
           />
         ))}
       </Box>
-      <Main interestLevel={interestLevel} savedJobsList={savedJobsList} refreshJobs={getSavedJobs} />
+      <Main
+        interestLevel={interestLevel}
+        savedJobsList={savedJobsList}
+        refreshJobs={getSavedJobs}
+      />
     </Box>
   );
-}
+};
 
 export default Jobs;

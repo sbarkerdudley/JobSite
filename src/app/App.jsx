@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import ProfileProvider from './components/Profile/ProfileContext';
+import JobSearchProvider from './components/JobSearch/JobSearchContext';
 import {
   Home, Dashboard, LogIn, SignUp, Jobs, Profile,
 } from './pages';
@@ -13,15 +14,15 @@ import Theme from './Theme';
 import NavBar from './components/NavBar';
 import authUtils from './utils/authUtils';
 
-function App() {
+const App = () => {
   const { width } = useWindowSize();
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    authUtils.getUser().then((res) => {
-      setLoggedIn(res.data.loggedIn);
-    });
+    authUtils
+      .getUser()
+      .then((res) => setLoggedIn(res.data.loggedIn));
   }, []);
 
   const newLogIn = (cb) => {
@@ -47,32 +48,34 @@ function App() {
       <CssBaseline />
       <ThemeProvider theme={Theme}>
         <ProfileProvider>
-          <Grid container direction="column" sx={{ width: '100vw', minHeight: '100vh' }}>
-            <NavBar loggedIn={loggedIn} />
+          <JobSearchProvider>
+            <Grid container direction="column" sx={{ width: '100vw', minHeight: '100vh' }}>
+              <NavBar loggedIn={loggedIn} />
 
-            <Routes>
-              <Route path="/" element={<Home newLogIn={newLogIn} nav={nav} />} exact />
-              <Route path="/signup" element={width < 800 ? <SignUp /> : <Home createAccount />} exact />
-              <Route path="/login" element={width < 800 ? <LogIn /> : <Home newLogIn={newLogIn} />} exact />
-              <Route path="/dashboard" element={<Dashboard />} exact />
-              <Route
-                path="/profile"
-                element={loggedIn ? <Profile /> : <Home newLogIn={newLogIn} />}
-                exact
-              />
-              <Route
-                path="/jobs"
-                element={
-                  loggedIn ? <Jobs /> : <Home newLogIn={newLogIn} />
-                }
-                exact
-              />
-            </Routes>
-          </Grid>
+              <Routes>
+                <Route path="/" element={<Home newLogIn={newLogIn} nav={nav} />} exact />
+                <Route path="/signup" element={width < 800 ? <SignUp /> : <Home createAccount />} exact />
+                <Route path="/login" element={width < 800 ? <LogIn /> : <Home newLogIn={newLogIn} />} exact />
+                <Route path="/dashboard" element={<Dashboard />} exact />
+                <Route
+                  path="/profile"
+                  element={loggedIn ? <Profile /> : <Home newLogIn={newLogIn} />}
+                  exact
+                />
+                <Route
+                  path="/jobs"
+                  element={
+                    loggedIn ? <Jobs /> : <Home newLogIn={newLogIn} />
+                  }
+                  exact
+                />
+              </Routes>
+            </Grid>
+          </JobSearchProvider>
         </ProfileProvider>
       </ThemeProvider>
     </div>
   );
-}
+};
 
 export default App;

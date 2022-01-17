@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function MobilePopout() {
+const MobilePopout = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -81,4 +81,6 @@ export default function MobilePopout() {
     </>
 
   );
-}
+};
+
+export default MobilePopout;
