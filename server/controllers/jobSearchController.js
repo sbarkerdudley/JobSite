@@ -33,25 +33,20 @@ exports.forward = (req, res) => {
 };
 
 exports.jobSearch = (req, res) => {
-
-
   let {
-    location = 'us', // String
-    keywords = '', // String
+    location = 'us',
+    keywords = '',
     sort = 'date',
-    pagesize, // Integer
+    pagesize = 40, // Integer
     radius = 100, // Integer (5, 10, 50, 100)
     page = 1, // Integer
-    // eslint-disable-next-line prefer-const
     employmentType = '', // String ('Full Time', 'Part Time', 'Temporary', 'Internship')
-    experienceLevel = '', // String ('Entry', 'Mid', 'Senior', 'Executive')
-    worksite, // String ('remote', 'onsite', 'mixed')
+    // experienceLevel = '', // String ('Entry', 'Mid', 'Senior', 'Executive')
+    // worksite, // String ('remote', 'onsite', 'mixed')
   } = req.query;
 
-  console.log(req.query, 'query');
-
   // if (keywords && experienceLevel) {
-  //   keywords = `${experienceLevel} ${keywords}`;
+  //   keywords = `${keywords}%20${experienceLevel}`;
   // }
 
   // if (location.match(/remote/i) || location.match(/anywhere/i)) {
@@ -59,10 +54,10 @@ exports.jobSearch = (req, res) => {
   //   worksite = 'remote';
   // }
   // if (worksite === 'remote') {
-  //   keywords = `Remote ${keywords}`;
+  //   keywords = `Remote%20${keywords}`;
   // }
 
-  pagesize = parseInt(pagesize, 30);
+  pagesize = parseInt(pagesize, 10);
   radius = parseInt(radius, 10);
   page = parseInt(page, 10);
 
@@ -77,29 +72,28 @@ exports.jobSearch = (req, res) => {
     .query()
     .then((data) => data.data)
     .then((results) => {
+      res.send(results);
+
       let { jobs } = results;
 
       if (Array.isArray(jobs)) {
-        jobs = jobs.filter((job) => !job.title.includes('Senior') && !job.title.includes('Sr') && !job.title.includes('III'));
+        let jobsList = jobs.filter((job) => (!job.title.includes('Senior')
+          && !job.title.includes('Sr')
+          && !job.title.includes('Principal')
+          && !job.title.includes('Lead')
+          && !job.title.includes('III')
+          && !job.title.includes('II')
+        ))
+          .map((job) => {
+            console.log(job, '\n');
+            return Object.entries(job).join(': ')
+          })
+          .join('\n\n')
+
+        fsPromises
+          .appendFile('./SearchResults.txt', jobsList)
+          .catch(console.error);
       }
-
-
-      const jobsList = jobs.map((job) => {
-        let parsed = '';
-        let current = Object.entries(job);
-        for (let prop of current) {
-          parsed += prop.join(': ');
-          parsed += '\n';
-        }
-        return parsed;
-      });
-
-      fsPromises
-        .appendFile('./SearchResults.txt', jobsList.join('\n\n'))
-        .catch(console.error);
-
-
-      res.send(results);
     })
     .catch(console.log);
 };

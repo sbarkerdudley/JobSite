@@ -1,7 +1,8 @@
 /*eslint-disable*/
 export const parseSearchInput = (e, key) => {
   if (!e.target.value) {
-    return '';
+    return null;
   }
-  return e.target.value?.length ? `${key}=${e.target.value.replaceAll(' ', '%20')}` : '';
+  let text = e.target.value?.trim()
+  return text.length ? `${key}=${text.replaceAll(' ', '%20')}` : '';
 };

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { JobSearchContext } from './JobSearchContext';
 import PrimaryButton from '../PrimaryButton';
 
-function SubmitSearchButton({ setSearchResults, context }) {
+const SubmitSearchButton = ({ setSearchResults, context }) => {
   const navigate = useNavigate();
   const locationHook = useLocation();
   const {
@@ -18,8 +18,6 @@ function SubmitSearchButton({ setSearchResults, context }) {
   } = useContext(JobSearchContext);
 
   const submitSearch = () => {
-    // integrate page into URL, useLocation to add pagination to QS
-    // search default size
     const query = [];
     (keywords) && (query.push(keywords));
     (location) && (query.push(location));
@@ -47,7 +45,7 @@ function SubmitSearchButton({ setSearchResults, context }) {
           setSearchResults(results?.data);
         });
     }
-  }, []);
+  }, [context, locationHook.search, setSearchResults]);
 
   return (
     <PrimaryButton
@@ -55,6 +53,6 @@ function SubmitSearchButton({ setSearchResults, context }) {
       text="Find Jobs"
     />
   );
-}
+};
 
 export default SubmitSearchButton;
