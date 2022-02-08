@@ -14,12 +14,17 @@ const Dashboard = () => {
         elevation={4}
         square
         sx={{
-          width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: '#EDFEFF', p: 1, mb: 2,
+          width: '100%',
+          alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          backgroundColor: '#EDFEFF',
+          p: 1,
+          mb: 2,
         }}
       >
-        <Box sx={{ maxWidth: '50%', width: 1000 }}>
-          <JobSearch setSearchResults={setSearchResults} context="jobsearch" layout="single" />
-        </Box>
+        <JobSearch setSearchResults={setSearchResults} context="jobsearch" layout="single" />
       </Paper>
       <Main jobsData={searchResults.jobs} />
     </Box>
