@@ -14,8 +14,8 @@ const MobilePopout = () => {
   const SAMPLEUSER = 'User Name';
 
   const navRoutes = LOGGEDIN
-    ? [['Home', '/'], ['Find Jobs', '/jobs'], ['Profile', '/profile'], ['View Saved Jobs', '/jobs/saved'], ['View Applied Jobs', '/jobs/applied'], ['View Resume', '/profile'], ['For Employers', '/']]
-    : [['Log In/ Create an Account', '/login'], ['Find Jobs', '/jobs'], ['Upload Resume', '/profile'], ['For Employers', '/']];
+    ? [['Home', '/'], ['Find Jobs', '/jobs'], ['Profile', '/profile'], ['View Saved Jobs', '/jobs/saved'], ['View Applied Jobs', '/jobs/applied'], ['View Resume', '/profile']]
+    : [['Log In/ Create an Account', '/login'], ['Find Jobs', '/jobs'], ['Upload Resume', '/profile']];
 
   const toggleDrawer = (open) => (event) => {
     if (

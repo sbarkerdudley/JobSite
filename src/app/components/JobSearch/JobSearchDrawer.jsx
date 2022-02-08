@@ -14,10 +14,10 @@ const JobSearchDrawer = () => {
       anchor="right"
       variant="temporary"
       open={drawer}
-      sx={{ maxWidth: '90%'}}
+      sx={{color: 'secondary'}}
       onClose={toggleDrawer}
     >
-      <Box sx={{ minWidth: 250, maxWidth: '90%', m: 2 }}>
+      <Box sx={{ minWidth: 250, m: 3 }}>
         <Typography variant={'h4'}>Filters</Typography>
         <JobSearchParams />
         <PrimaryButton onClick={toggleDrawer} text="Filter" />
