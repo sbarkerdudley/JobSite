@@ -8,12 +8,11 @@ import Interweave from 'interweave';
 import ta from 'time-ago';
 import OneClickApplyButton from '../OneClickApplyButton/OneClickApplyButton';
 
-function JobFocusItem({ job }) {
+const JobFocusItem = ({ job }) => {
   const [description, setDescription] = useState(job?.description || '');
 
-  // When we polish Description to show HTML please remove the template literals in this useEffect.
   useEffect(() => {
-    setDescription(`${job.description} Loading Full Job Description, Please Wait`);
+    setDescription(job.description);
     axios.get('/data/jobsearchdescription', {
       params: {
         url: job?.url,
@@ -22,8 +21,7 @@ function JobFocusItem({ job }) {
       .then((results) => {
         setDescription(results.data);
       })
-      .catch((error) => {
-        console.log('Failed to retreive full job description, falling back to snippet', error);
+      .catch(() => {
         setDescription(`${job.description} Full Job Description unavailable for this job at this time`);
       });
   }, [job.description, job.url]);
@@ -88,31 +86,6 @@ function JobFocusItem({ job }) {
     );
   }
   return null;
-}
+};
 
 export default JobFocusItem;
-
-/*
-      <Card sx={{
-        justifyContent: 'center', width: 800, mt: 2, p: 2,
-      }}
-      >
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {job.company}
-          </Typography>
-          <Typography variant="h5" component="div">
-            {job.title}
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            {job.locations}
-          </Typography>
-          <Typography variant="body2">
-            {description}
-          </Typography>
-          <Typography variant="body2">
-            {job.date}
-          </Typography>
-        </CardContent>
-      </Card>
-*/

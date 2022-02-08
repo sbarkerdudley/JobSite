@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Card, Box, Typography,
 } from '@mui/material';
@@ -7,9 +7,9 @@ import ta from 'time-ago';
 import SaveJobButton from '../SaveJobButton/SaveJobButton';
 import PrimaryButton from '../PrimaryButton';
 
-function JobItem({
+const JobItem = ({
   handleFocus, job, selected, index,
-}) {
+}) => {
   const jobSelect = (selectedJob) => {
     handleFocus(selectedJob);
   };
@@ -40,7 +40,7 @@ function JobItem({
         <Typography>
           {ta.ago(job.date)}
         </Typography>
-        <PrimaryButton sx={{ mb: 0, mt: 0 }} text="Learn More" onClick={(e) => { jobSelect(job); }} />
+        <PrimaryButton sx={{ mb: 0, mt: 0 }} text="Learn More" onClick={() => { jobSelect(job); }} />
         <SaveJobButton
           sx={{ mb: 0, mt: 0 }}
           index={index}
@@ -52,6 +52,6 @@ function JobItem({
       </Box>
     </Card>
   );
-}
+};
 
 export default JobItem;

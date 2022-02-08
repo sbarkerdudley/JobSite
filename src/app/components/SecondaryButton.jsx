@@ -2,11 +2,9 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-// Secondary button for dashboard pages
-
-export default function SecondaryButton({
+const SecondaryButton = ({
   text, onClick, sx, textStyleOverride, fullWidth, selected, value,
-}) {
+}) => {
   const selectedStyles = selected ? {
     borderBottom: 3,
     borderColor: '#85CDD2',
@@ -25,4 +23,6 @@ export default function SecondaryButton({
       <Typography value={value} sx={[{ fontWeight: 700, color: '#0F060A' }, textStyleOverride]}>{text}</Typography>
     </Button>
   );
-}
+};
+
+export default SecondaryButton;

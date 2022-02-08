@@ -1,21 +1,16 @@
-/*eslint-disable*/
 import React from 'react';
-import { Box, Stack } from '@mui/material';
 import JobSearchDrawer from './JobSearchDrawer';
 import JobSearchProvider from './JobSearchContext';
 import JobSearchBars from './JobSearchBars';
 import SubmitSearchButton from './SubmitSearchButton';
 
-const JobSearch = ({setSearchResults, context, layout}) => {
-
-  return (
-    <JobSearchProvider>
-      <JobSearchBars>
-        <SubmitSearchButton setSearchResults={setSearchResults} context={context}/>
-        <JobSearchDrawer />
-      </JobSearchBars>
-    </JobSearchProvider>
-  );
-};
+const JobSearch = ({ setSearchResults, context }) => (
+  <JobSearchProvider>
+    <JobSearchBars>
+      <SubmitSearchButton {...{ setSearchResults, context }} />
+      <JobSearchDrawer />
+    </JobSearchBars>
+  </JobSearchProvider>
+);
 
 export default JobSearch;

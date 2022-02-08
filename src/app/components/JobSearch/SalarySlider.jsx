@@ -8,7 +8,6 @@ const SalarySlider = () => {
 
   let { salary, setSalary } = useContext(JobSearchContext);
   let updateSalaryRange = (event, newSalary) => setSalary(newSalary)
-  //Non-functional - responses will need to be filtered server-side
 
   const marks = [
     {
@@ -43,7 +42,6 @@ const SalarySlider = () => {
         min={0}
         max={200}
         step={2}
-        // defaultValue={salary}
         value={salary}
         marks={marks}
         valueLabelFormat={formatLabel}

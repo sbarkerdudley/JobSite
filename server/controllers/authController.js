@@ -11,7 +11,7 @@ const User = require('../models/userModel');
 require('../passportConfig')(passport);
 
 module.exports = {
-  register: (req, res) => {
+  register: (req, res, next) => {
     User.findOne({ username: req.body.username }, async (err, doc) => {
       if (err) throw err;
       if (doc.rows.length > 0) {
@@ -26,7 +26,7 @@ module.exports = {
           password: hashedPassword,
         };
         await User.insert(newUser.username, newUser.password, salt);
-        res.send('User Created');
+        res.status(201).redirect('/dashboard');
       }
     });
   },
@@ -36,7 +36,7 @@ module.exports = {
       if (err) throw err;
       if (!user) res.send('No User Exists');
       else {
-        req.logIn(user, (err) => {
+        req.logIn(user, () => {
           if (err) throw err;
           res.send('Successfully Authenticated');
         });

@@ -1,14 +1,13 @@
-/* eslint-disable */
 import React, { useContext } from 'react';
 import {
-  FormControl, FormControlLabel, FormLabel, RadioGroup, Radio,
+  FormControl, FormControlLabel, FormLabel, RadioGroup, Radio, Grid,
 } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { JobSearchContext } from './JobSearchContext';
 
 const radioStyle = { '&.Mui-checked': { color: '#4A485B' } };
 const labelStyle = { '&.Mui-focused': { color: '#4A485B', fontWeight: 700 } };
-const R = <Radio sx={radioStyle} />
+const R = <Radio sx={radioStyle} />;
 
 export const Sort = () => {
   const { setSort } = useContext(JobSearchContext);
@@ -25,13 +24,13 @@ export const Sort = () => {
         name="sort"
         onChange={(e) => { setSort(e.target.value); }}
       >
-        <FormControlLabel value="sort=relevance" label="Relevance" control={R} />
-        <FormControlLabel value="sort=date" label="Date" control={R} />
-        <FormControlLabel value="sort=salary" label="Salary" control={R} />
+        <FormControlLabel key={1} value="sort=relevance" label="Relevance" control={R} />
+        <FormControlLabel key={2} value="sort=date" label="Date" control={R} />
+        <FormControlLabel key={3} value="sort=salary" label="Salary" control={R} />
       </RadioGroup>
     </FormControl>
   );
-}
+};
 
 export const Range = () => {
   const { setRange } = useContext(JobSearchContext);
@@ -47,15 +46,15 @@ export const Range = () => {
         name="range"
         onChange={(e) => { setRange(e.target.value); }}
       >
-        <FormControlLabel value="radius=5" label="5 miles" control={R} />
-        <FormControlLabel value="radius=20" label="20 miles" control={R} />
-        <FormControlLabel value="radius=50" label="50 miles" control={R} />
-        <FormControlLabel value="radius=100" label="100 miles" control={R} />
-        <FormControlLabel value="" label="Anywhere" control={R} />
+        <FormControlLabel key="5" value="radius=5" label="5 miles" control={R} />
+        <FormControlLabel key="20" value="radius=20" label="20 miles" control={R} />
+        <FormControlLabel key="50" value="radius=50" label="50 miles" control={R} />
+        <FormControlLabel key="100" value="radius=100" label="100 miles" control={R} />
+        <FormControlLabel key="__" value="" label="Anywhere" control={R} />
       </RadioGroup>
     </FormControl>
   );
-}
+};
 
 export const Experience = () => {
   const { setExperience } = useContext(JobSearchContext);
@@ -66,20 +65,20 @@ export const Experience = () => {
     <FormControl fullWidth>
       <FormLabel id="experience" sx={labelStyle}>Experience Level</FormLabel>
       <RadioGroup
-        // row
+        row
         aria-label="experience"
         defaultValue={url.has('experienceLevel') ? `experienceLevel=${url.get('experienceLevel')}` : null}
         name="experience"
         onChange={(e) => setExperience(e.target.value)}
       >
-        <FormControlLabel value="experienceLevel=Entry" label="Entry Level" control={R} />
-        <FormControlLabel value="experienceLevel=Mid" label="Mid Level" control={R} />
-        <FormControlLabel value="experienceLevel=Senior" label="Senior Level" control={R} />
-        <FormControlLabel value="experienceLevel=Executive" label="Executive Level" control={R} />
+        <FormControlLabel value="experienceLevel=Entry" label="Entry" control={R} />
+        <FormControlLabel value="experienceLevel=Mid" label="Mid" control={R} />
+        <FormControlLabel value="experienceLevel=Senior" label="Senior" control={R} />
+        <FormControlLabel value="experienceLevel=Executive" label="Executive" control={R} />
       </RadioGroup>
     </FormControl>
   );
-}
+};
 
 export const EmploymentType = () => {
   const { setEmploymentType } = useContext(JobSearchContext);
@@ -95,14 +94,16 @@ export const EmploymentType = () => {
         name="employmentType"
         onChange={(e) => setEmploymentType(e.target.value)}
       >
-        <FormControlLabel value="employmentType=Part-Time" label="Part Time" control={R} />
-        <FormControlLabel value="employmentType=Full-Time" label="Full Time" control={R} />
-        <FormControlLabel value="employmentType=Temporary" label="Temporary" control={R} />
-        <FormControlLabel value="employmentType=Internship" label="Internship" control={R} />
+        <Grid>
+          <FormControlLabel value="employmentType=Part-Time" label="Part Time" control={R} />
+          <FormControlLabel value="employmentType=Full-Time" label="Full Time" control={R} />
+          <FormControlLabel value="employmentType=Temporary" label="Temporary" control={R} />
+          <FormControlLabel value="employmentType=Internship" label="Internship" control={R} />
+        </Grid>
       </RadioGroup>
     </FormControl>
   );
-}
+};
 
 export const WorkSite = () => {
   const { setWorkSite } = useContext(JobSearchContext);
@@ -125,4 +126,4 @@ export const WorkSite = () => {
       </RadioGroup>
     </FormControl>
   );
-}
+};

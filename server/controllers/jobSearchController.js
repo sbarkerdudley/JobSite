@@ -1,37 +1,21 @@
+/* eslint-disable prefer-const */
+require('dotenv').config();
+const fsPromises = require('fs/promises');
 const axios = require('axios');
 const cheerio = require('cheerio');
-
-require('dotenv').config();
-
 const CareerJet = require('../models/API/careerJet');
 
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  // The maximum is inclusive and the minimum is inclusive
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-const randomExperienceLevel = () => {
-  const experienceLevels = {
-    0: 'Entry',
-    1: 'Mid',
-    2: 'Senior',
-    3: 'Executive',
-  };
-
-  const randomExperience = getRandomIntInclusive(0, 4);
-  return experienceLevels[randomExperience];
-};
-
-const randomWorksite = () => {
-  const random = getRandomIntInclusive(0, 1);
-  return random ? 'On-Site' : 'Mixed';
-};
+const careerjetAPI = new CareerJet({
+  locale: 'en_US',
+  affid: process.env.AFFID,
+  user_ip: '192.0.0.1',
+  user_agent: 'JobSite',
+});
 
 exports.scrapeDescription = (req, res) => {
   const { url } = req.query;
-  axios.get(url)
+  axios
+    .get(url)
     .then((response) => {
       const html = response.data;
 
@@ -42,47 +26,40 @@ exports.scrapeDescription = (req, res) => {
     .catch((err) => res.status(404).send(err));
 };
 
+exports.forward = (req, res) => {
+  const { id } = req.params;
+  const url = new URL(id, 'https://careerjet.com/job/');
+  res.redirect(url.href);
+};
+
 exports.jobSearch = (req, res) => {
   let {
-    location = 'us', // String
-    keywords = '', // String
-    // eslint-disable-next-line prefer-const
-    sort = 'relevance', // String ('relevance', 'data', 'salary')
-    pagesize = 10, // Integer
-    radius = 10, // Integer (5, 10, 50, 100)
+    location = 'us',
+    keywords = '',
+    sort = 'date',
+    pagesize = 40, // Integer
+    radius = 100, // Integer (5, 10, 50, 100)
     page = 1, // Integer
-    // eslint-disable-next-line prefer-const
     employmentType = '', // String ('Full Time', 'Part Time', 'Temporary', 'Internship')
-    // eslint-disable-next-line prefer-const
-    experienceLevel = '', // String ('Entry', 'Mid', 'Senior', 'Executive')
-    worksite = 'Mixed', // String ('remote', 'onsite', 'mixed')
-
+    // experienceLevel = '', // String ('Entry', 'Mid', 'Senior', 'Executive')
+    // worksite, // String ('remote', 'onsite', 'mixed')
   } = req.query;
 
-  if (keywords && experienceLevel) {
-    keywords = `${experienceLevel} ${keywords}`;
-  }
+  // if (keywords && experienceLevel) {
+  //   keywords = `${keywords}%20${experienceLevel}`;
+  // }
 
-  // careerjet api does not support "remote" location
-  // add remote to search
-  if (location.match(/remote/i) || location.match(/anywhere/i)) {
-    location = '';
-    worksite = 'remote';
-  }
-  if (worksite === 'remote') {
-    keywords = `Remote ${keywords}`;
-  }
+  // if (location.match(/remote/i) || location.match(/anywhere/i)) {
+  //   location = '';
+  //   worksite = 'remote';
+  // }
+  // if (worksite === 'remote') {
+  //   keywords = `Remote%20${keywords}`;
+  // }
 
   pagesize = parseInt(pagesize, 10);
   radius = parseInt(radius, 10);
   page = parseInt(page, 10);
-
-  const careerjetAPI = new CareerJet({
-    locale: 'en_US',
-    affid: process.env.AFFID,
-    user_ip: '192.0.0.1',
-    user_agent: 'JobSite',
-  });
 
   careerjetAPI
     .location(location)
@@ -93,16 +70,30 @@ exports.jobSearch = (req, res) => {
     .page(page)
     .employmentType(employmentType)
     .query()
-    .then((data) => {
-      const results = data.data;
-      if (results.jobs) {
-        for (let i = 0; i < results.jobs.length; i += 1) {
-          results.jobs[i].employmentType = employmentType;
-          results.jobs[i].experienceLevel = experienceLevel || randomExperienceLevel();
-          results.jobs[i].worksite = worksite || randomWorksite();
-        }
-      }
+    .then((data) => data.data)
+    .then((results) => {
       res.send(results);
+
+      let { jobs } = results;
+
+      if (Array.isArray(jobs)) {
+        let jobsList = jobs.filter((job) => (!job.title.includes('Senior')
+          && !job.title.includes('Sr')
+          && !job.title.includes('Principal')
+          && !job.title.includes('Lead')
+          && !job.title.includes('III')
+          && !job.title.includes('II')
+        ))
+          .map((job) => {
+            console.log(job, '\n');
+            return Object.entries(job).join(': ')
+          })
+          .join('\n\n')
+
+        fsPromises
+          .appendFile('./SearchResults.txt', jobsList)
+          .catch(console.error);
+      }
     })
-    .catch((err) => console.log(err));
+    .catch(console.log);
 };

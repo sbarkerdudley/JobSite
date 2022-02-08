@@ -4,12 +4,10 @@
   "description": "update me",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "nodemon server/index.js",
     "build": "webpack",
     "test": "jest",
-    "serve-react-dev": "webpack-dev-server --config webpack.config.js",
-    "react-dev": "webpack -w",
-    "server-dev": "nodemon server/index.js",
+    "dev": "webpack-dev-server --config webpack.config.js",
     "debug": "nodemon --inspect server/index.js"
   },
   "repository": {

@@ -16,9 +16,9 @@ const google = {
   backgroundColor: 'white', color: 'black', '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.8)' },
 };
 
-export default function AuthButton({
+const AuthButton = ({
   text, onClick, styleOverride, textStyleOverride,
-}) {
+}) => {
   let type = {};
   let image = null;
   switch (text) {
@@ -55,4 +55,6 @@ export default function AuthButton({
       </Typography>
     </Button>
   );
-}
+};
+
+export default AuthButton;
