@@ -12,7 +12,7 @@ const JobFocusItem = ({ job }) => {
   const [description, setDescription] = useState(job?.description || '');
 
   useEffect(() => {
-    setDescription(`${job.description} \n\n\nLoading Full Job Description, Please Wait`);
+    setDescription(job.description);
     axios.get('/data/jobsearchdescription', {
       params: {
         url: job?.url,
